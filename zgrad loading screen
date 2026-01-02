@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { background: #111; color: #0f0; font-family: monospace; overflow: hidden; }
+        #canvas { position: absolute; top: 0; left: 0; }
+        .info { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); text-align: center; }
+        .bar { width: 400px; height: 20px; border: 1px solid #0f0; margin-top: 10px; }
+        #fill { width: 0%; height: 100%; background: #0f0; transition: width 0.3s; }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="info">
+        <div id="status">CONNECTING TO P2P NETWORK...</div>
+        <div class="bar"><div id="fill"></div></div>
+        <div id="needed">Files remaining: 0</div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Функция, которую вызывает сам Garry's Mod
+        function DownloadingFile(fileName) {
+            document.getElementById('status').innerText = "GETTING FROM PEER: " + fileName;
+        }
+
+        function SetFilesNeeded(needed) {
+            document.getElementById('needed').innerText = "Files remaining: " + needed;
+        }
+
+        function SetProgress(progress) {
+            document.getElementById('fill').style.width = (progress * 100) + "%";
+        }
+
+        // Анимация точек (пиров)
+        const peers = [];
+        for(let i=0; i<15; i++) {
+            peers.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*2});
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#0f0";
+            peers.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 3, 0, Math.PI*2);
+                ctx.fill();
+                // Линии к центру
+                ctx.strokeStyle = "rgba(0, 255, 0, 0.1)";
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(canvas.width/2, canvas.height/2);
+                ctx.stroke();
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+    </script>
+</body>
+</html>
