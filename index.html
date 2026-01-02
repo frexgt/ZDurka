@@ -3,135 +3,130 @@
 <head>
     <style>
         body { 
-            background: #1a0000; 
+            background: #0a0000; 
             color: #ff3333; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             margin: 0;
             overflow: hidden; 
         }
-        
-        /* Анимированный фон с сеткой */
+
+        /* Фоновая красная сетка */
         #grid-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
                 linear-gradient(to right, rgba(255, 0, 0, 0.1) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(255, 0, 0, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: move 5s linear infinite;
-            z-index: -1;
+            background-size: 45px 45px;
+            animation: gridMove 10s linear infinite;
+            z-index: -2;
+        }
+        @keyframes gridMove { from { background-position: 0 0; } to { background-position: 45px 45px; } }
+
+        /* Анимация логотипа Z-GRAD */
+        .logo-container {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            font-size: 80px;
+            font-weight: 900;
+            letter-spacing: -5px;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
         }
 
-        @keyframes move {
-            from { background-position: 0 0; }
-            to { background-position: 50px 50px; }
+        .char-z {
+            color: #ff0000;
+            display: inline-block;
+            animation: z-entry 2s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
         }
 
-        #canvas { position: absolute; top: 0; left: 0; }
+        .rest-text {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 0;
+            animation: reveal-grad 1s 1.5s forwards;
+        }
 
+        .dash { color: #ff0000; }
+        .grad { color: #ffffff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
+
+        @keyframes z-entry {
+            0% { transform: scale(0); opacity: 0; }
+            40% { transform: scale(1.5); opacity: 1; }
+            70% { transform: scale(1); transform: translateX(0); }
+            100% { transform: translateX(-120px); } /* Сдвиг влево */
+        }
+
+        @keyframes reveal-grad {
+            from { width: 0; opacity: 0; }
+            to { width: 300px; opacity: 1; transform: translateX(-110px); }
+        }
+
+        /* Блок информации загрузки */
         .info { 
             position: absolute; 
-            bottom: 50px; 
-            left: 50%; 
-            transform: translateX(-50%); 
+            bottom: 50px; left: 50%; transform: translateX(-50%); 
             text-align: center;
-            background: rgba(40, 0, 0, 0.8);
-            padding: 20px;
+            background: rgba(30, 0, 0, 0.85);
+            padding: 25px 40px;
             border: 2px solid #ff0000;
-            border-radius: 25px; /* Закругленный стиль */
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
-            backdrop-filter: blur(5px);
-            min-width: 450px;
+            border-radius: 50px; 
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            min-width: 400px;
         }
 
         .bar { 
-            width: 100%; 
-            height: 15px; 
-            background: #330000; 
-            border-radius: 10px; /* Закругленная полоска */
-            margin-top: 15px;
-            overflow: hidden;
-            border: 1px solid #550000;
+            width: 100%; height: 12px; background: rgba(80, 0, 0, 0.3); 
+            border-radius: 20px; margin-top: 15px;
+            overflow: hidden; border: 1px solid #660000;
         }
 
         #fill { 
-            width: 0%; 
-            height: 100%; 
-            background: linear-gradient(90deg, #ff0000, #ff6666); 
-            transition: width 0.4s ease-out; 
+            width: 0%; height: 100%; 
+            background: linear-gradient(90deg, #990000, #ff0000); 
+            box-shadow: 0 0 15px #ff0000;
+            transition: width 0.4s ease; 
         }
 
-        #status { font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        #needed { margin-top: 5px; font-size: 0.8em; opacity: 0.7; }
+        #status { font-size: 14px; text-transform: uppercase; font-weight: bold; color: #ff6666; }
     </style>
 </head>
 <body>
     <div id="grid-bg"></div>
-    <canvas id="canvas"></canvas>
     
+    <div class="logo-container">
+        <span class="char-z">Z</span>
+        <span class="rest-text">
+            <span class="dash">-</span><span class="grad">GRAD</span>
+        </span>
+    </div>
+
     <div class="info">
-        <div id="status">P2P: Initialization...</div>
+        <div id="status">CONNECTING TO P2P NODES...</div>
         <div class="bar"><div id="fill"></div></div>
-        <div id="needed">Waiting for server response</div>
     </div>
 
     <script>
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const peers = [];
-        for(let i=0; i<20; i++) {
-            peers.push({
-                x: Math.random() * canvas.width, 
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 2,
-                vy: (Math.random() - 0.5) * 2
-            });
+        // Интеграция с Gmod
+        function SetProgress(fraction) {
+            document.getElementById('fill').style.width = (fraction * 100) + "%";
         }
 
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#ff0000";
-            
-            peers.forEach(p => {
-                p.x += p.vx;
-                p.y += p.vy;
-                if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, 4, 0, Math.PI*2);
-                ctx.fill();
-
-                ctx.strokeStyle = "rgba(255, 0, 0, 0.2)";
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(canvas.width/2, canvas.height/2);
-                ctx.stroke();
-            });
-            requestAnimationFrame(draw);
-        }
-
-        // Функции Gmod
         function DownloadingFile(fileName) {
-            document.getElementById('status').innerText = "PEER DATA: " + fileName;
+            document.getElementById('status').innerText = "DOWNLOADING: " + fileName;
         }
 
-        function SetFilesNeeded(needed) {
-            document.getElementById('needed').innerText = "Nodes remaining: " + needed;
-        }
-
-        function SetProgress(progress) {
-            document.getElementById('fill').style.width = (progress * 100) + "%";
-        }
-
-        draw();
+        // Для теста в браузере (можно удалить)
+        let p = 0;
+        setInterval(() => {
+            if(p < 1) p += 0.01;
+            SetProgress(p);
+        }, 100);
     </script>
 </body>
 </html>
