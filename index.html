@@ -9,6 +9,7 @@
             color: #ff3333; 
             font-family: 'Montserrat', sans-serif; 
             margin: 0;
+            padding: 0;
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -22,80 +23,82 @@
             position: fixed;
             top: 0; left: 0; 
             width: 100%; height: 100%;
-            /* Рисуем сетку через градиенты, которые повторяются вечно */
+            /* Паттерн сетки через градиенты */
             background-image: 
-                linear-gradient(to right, rgba(255, 0, 0, 0.07) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 0, 0, 0.07) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: gridScroll 15s linear infinite;
+                linear-gradient(to right, rgba(255, 0, 0, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 0, 0, 0.08) 1px, transparent 1px);
+            background-size: 60px 60px;
+            /* Анимация движения фона */
+            animation: gridScroll 20s linear infinite;
             z-index: -1;
         }
 
         @keyframes gridScroll {
             from { background-position: 0 0; }
-            to { background-position: 50px 50px; }
+            to { background-position: 60px 60px; }
         }
 
         /* КОНТЕЙНЕР ЛОГОТИПА */
-        .logo-wrapper {
+        .logo-center-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            font-size: 100px;
-            /* Убираем лишние сдвиги, полагаемся на flex */
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            /* Гарантирует, что всё всегда будет по центру */
+            text-align: center;
         }
 
-        .char-z {
+        .z-char {
             font-family: 'Orbitron', sans-serif;
+            font-size: 120px;
             color: #ff0000;
-            display: inline-block;
             opacity: 0;
-            transform: scale(2);
-            filter: blur(15px);
-            text-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
-            animation: z-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transform: scale(3);
+            filter: blur(20px);
+            text-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
+            animation: z-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            display: inline-block;
         }
 
-        .suffix-box {
+        .suffix-container {
             display: flex;
             align-items: center;
             overflow: hidden;
             width: 0;
             opacity: 0;
             white-space: nowrap;
-            /* Плавное расширение вправо */
-            animation: expand-grad 1s 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            font-size: 120px;
+            /* Раскрытие текста после появления Z */
+            animation: expand-suffix 1s 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .dash { color: #ff0000; margin: 0 5px; }
-        .grad { color: #ffffff; text-shadow: 0 0 20px rgba(255, 255, 255, 0.4); }
+        .dash { color: #ff0000; margin-right: 10px; }
+        .grad { color: #ffffff; text-shadow: 0 0 30px rgba(255, 255, 255, 0.5); }
 
+        /* АНИМАЦИИ */
         @keyframes z-in {
             to { opacity: 1; transform: scale(1); filter: blur(0); }
         }
 
-        @keyframes expand-grad {
+        @keyframes expand-suffix {
             from { width: 0; opacity: 0; }
-            to { width: 400px; opacity: 1; }
+            to { width: 500px; opacity: 1; } /* Достаточная ширина для -GRAD */
         }
 
-        /* ИНФО-БЛОК (Закругленный) */
-        .loading-info { 
+        /* ПОЛОСА ЗАГРУЗКИ */
+        .loading-ui { 
             position: fixed; 
-            bottom: 60px;
-            background: rgba(15, 0, 0, 0.9);
-            padding: 25px 50px;
-            border: 1px solid rgba(255, 0, 0, 0.4);
-            border-radius: 100px; 
+            bottom: 10%; 
+            width: 450px;
             text-align: center;
-            min-width: 450px;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.1);
+            background: rgba(15, 0, 0, 0.85);
+            padding: 20px 40px;
+            border-radius: 100px; /* Скруглённый стиль */
+            border: 1px solid rgba(255, 0, 0, 0.3);
             backdrop-filter: blur(10px);
         }
 
-        .progress-container { 
+        .bar-bg { 
             width: 100%; height: 4px; background: rgba(255, 0, 0, 0.1); 
             border-radius: 10px; margin-top: 15px; overflow: hidden;
         }
@@ -103,33 +106,35 @@
         #fill { 
             width: 0%; height: 100%; background: #ff0000; 
             box-shadow: 0 0 15px #ff0000;
-            transition: width 0.4s ease; 
+            transition: width 0.4s ease-out; 
         }
 
-        #status { font-size: 11px; letter-spacing: 5px; text-transform: uppercase; opacity: 0.6; }
+        #status { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; opacity: 0.7; }
     </style>
 </head>
 <body>
     <div id="grid-bg"></div>
     
-    <div class="logo-wrapper">
-        <span class="char-z">Z</span>
-        <div class="suffix-box">
+    <div class="logo-center-wrapper">
+        <span class="z-char">Z</span>
+        <div class="suffix-container">
             <span class="dash">-</span><span class="grad">GRAD</span>
         </div>
     </div>
 
-    <div class="loading-info">
-        <div id="status">Z-GRAD SYSTEMS ONLINE</div>
-        <div class="progress-container"><div id="fill"></div></div>
+    <div class="loading-ui">
+        <div id="status">Z-GRAD CORE INITIALIZING</div>
+        <div class="bar-bg"><div id="fill"></div></div>
     </div>
 
     <script>
+        // Интеграция с Garry's Mod
         function SetProgress(fraction) {
             document.getElementById('fill').style.width = (fraction * 100) + "%";
         }
+
         function DownloadingFile(fileName) {
-            document.getElementById('status').innerText = "FETCHING: " + fileName;
+            document.getElementById('status').innerText = "DOWNLOADING: " + fileName;
         }
     </script>
 </body>
