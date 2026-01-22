@@ -15,6 +15,7 @@
         }
 
         html { scroll-behavior: smooth; }
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
 
         body {
@@ -23,6 +24,7 @@
             line-height: 1.4;
         }
 
+        /* --- ШАПКА --- */
         header {
             background-color: var(--nav-black);
             padding: 10px 15%;
@@ -42,9 +44,11 @@
             letter-spacing: -1px;
             cursor: pointer;
         }
+
         .logo span { color: var(--bright-red); }
 
         nav { display: flex; gap: 20px; }
+
         .nav-link {
             text-decoration: none;
             color: #999;
@@ -57,11 +61,13 @@
             padding: 5px 0;
             border-bottom: 2px solid transparent;
         }
+
         .nav-link:hover, .nav-link.active {
             color: #fff;
             border-bottom: 2px solid var(--bright-red);
         }
 
+        /* --- КОНТЕНТ --- */
         .wrapper {
             max-width: 1100px;
             margin: 30px auto;
@@ -81,8 +87,14 @@
             min-height: 600px;
         }
 
-        .tab-content { display: none; animation: fadeIn 0.4s ease; }
-        .tab-content.active { display: block; }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -97,11 +109,15 @@
             padding: 15px;
             margin-bottom: 10px;
             border-left: 3px solid var(--accent-red);
+            transition: 0.3s;
         }
+        .wiki-item:hover { background: #2a2a2a; border-left-color: var(--bright-red); }
 
+        /* --- ПРАВАЯ ПАНЕЛЬ --- */
         .side-block {
             background-color: var(--bg-card);
-            padding: 10px;
+            padding: 15px;
+            text-align: center;
             border: 1px solid #333;
             position: sticky;
             top: 80px;
@@ -111,17 +127,9 @@
             width: 100%;
             height: 400px;
             background: #111;
-            overflow: hidden;
             display: flex;
-            justify-content: center;
             align-items: center;
-            border: 1px solid #444;
-        }
-
-        .character-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Это важно, чтобы картинка не сжималась */
+            justify-content: center;
         }
     </style>
 </head>
@@ -139,7 +147,9 @@
 
     <div class="wrapper">
         <div class="grid-container">
+            
             <div class="content-main">
+                
                 <div id="main" class="tab-content active">
                     <h2>About site</h2>
                     <p class="description">Это официальный информационный ресурс сервера Z-City. Проект базируется на уникальных режимах Garry's Mod.</p>
@@ -150,36 +160,52 @@
 
                 <div id="wiki" class="tab-content">
                     <h2>Wiki / База знаний</h2>
-                    <div class="wiki-item">
-                        <h4 style="padding: 10px;">Гайд для новичков</h4>
-                    </div>
+                    <p class="description">Изучите руководства и игровые механики:</p>
+                    <div class="wiki-item"><h4>Гайд для новичков</h4><p style="font-size: 12px; color: #777;">потом.</p></div>
+                    <div class="wiki-item"><h4>Роли</h4><p style="font-size: 12px; color: #777;">роли выдаются в начале раунда Z-City.</p></div>
+                    <div class="wiki-item"><h4>Регдолл</h4><p style="font-size: 12px; color: #777;">кастомная система регдолла.</p></div>
                 </div>
 
                 <div id="Content" class="tab-content">
                     <h2>Z-Durka Content</h2>
-                    <p style="margin-top: 20px;">Steam content: <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3649195685" style="color: var(--bright-red);">Открыть в Steam</a></p>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px;">
+                        <tr style="background: #111; color: #fff; text-align: left;">
+                            <th style="padding: 12px;">Steam content https://steamcommunity.com/sharedfiles/filedetails/?id=3649195685</th>
+                        </tr>
+                    </table>
                 </div>
+
             </div>
 
             <div class="sidebar">
                 <div class="side-block">
                     <div class="character-preview">
-                        <img src="https://i.ibb.co/LhYfD8p/image-626619.jpg" alt="Z-City Character">
+                        <span style="color: #333; font-weight: bold;">[ CHARACTER ]</span>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
     <script>
         function openTab(tabName) {
             var contents = document.getElementsByClassName("tab-content");
-            for (var i = 0; i < contents.length; i++) contents[i].classList.remove("active");
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove("active");
+            }
+
             var buttons = document.getElementsByClassName("nav-link");
-            for (var i = 0; i < buttons.length; i++) buttons[i].classList.remove("active");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove("active");
+            }
+
             document.getElementById(tabName).classList.add("active");
             document.getElementById('btn-' + tabName).classList.add("active");
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
+
 </body>
 </html>
