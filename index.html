@@ -24,7 +24,6 @@
             line-height: 1.4;
         }
 
-        /* --- ШАПКА --- */
         header {
             background-color: var(--nav-black);
             padding: 10px 15%;
@@ -67,7 +66,6 @@
             border-bottom: 2px solid var(--bright-red);
         }
 
-        /* --- КОНТЕНТ --- */
         .wrapper {
             max-width: 1100px;
             margin: 30px auto;
@@ -113,7 +111,6 @@
         }
         .wiki-item:hover { background: #2a2a2a; border-left-color: var(--bright-red); }
 
-        /* --- ПРАВАЯ ПАНЕЛЬ --- */
         .side-block {
             background-color: var(--bg-card);
             padding: 15px;
@@ -130,6 +127,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+            border: 1px solid #444;
+        }
+
+        .character-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     </style>
 </head>
@@ -149,7 +154,6 @@
         <div class="grid-container">
             
             <div class="content-main">
-                
                 <div id="main" class="tab-content active">
                     <h2>About site</h2>
                     <p class="description">Это официальный информационный ресурс сервера Z-City. Проект базируется на уникальных режимах Garry's Mod.</p>
@@ -174,13 +178,12 @@
                         </tr>
                     </table>
                 </div>
-
             </div>
 
             <div class="sidebar">
                 <div class="side-block">
                     <div class="character-preview">
-                        <span style="color: #333; font-weight: bold;">[ CHARACTER ]</span>
+                        <img src="image_626619.jpg" alt="Z-City Character">
                     </div>
                 </div>
             </div>
