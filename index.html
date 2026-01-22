@@ -115,12 +115,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            border: 1px solid #444;
         }
 
         .character-preview img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: cover; /* Это важно, чтобы картинка не сжималась */
         }
     </style>
 </head>
@@ -141,27 +142,29 @@
             <div class="content-main">
                 <div id="main" class="tab-content active">
                     <h2>About site</h2>
-                    <p class="description">Официальный ресурс Z-City.</p>
+                    <p class="description">Это официальный информационный ресурс сервера Z-City. Проект базируется на уникальных режимах Garry's Mod.</p>
                     <div style="width: 100%; aspect-ratio: 16/9; background: #000; border: 1px solid #333; display: flex; align-items: center; justify-content: center;">
                         <span style="color: #444;">[ VIDEO PREVIEW ]</span>
                     </div>
                 </div>
 
                 <div id="wiki" class="tab-content">
-                    <h2>Wiki</h2>
-                    <div class="wiki-item"><h4>Гайд для новичков</h4></div>
+                    <h2>Wiki / База знаний</h2>
+                    <div class="wiki-item">
+                        <h4 style="padding: 10px;">Гайд для новичков</h4>
+                    </div>
                 </div>
 
                 <div id="Content" class="tab-content">
-                    <h2>Content</h2>
-                    <p>Steam content: https://steamcommunity.com/sharedfiles/filedetails/?id=3649195685</p>
+                    <h2>Z-Durka Content</h2>
+                    <p style="margin-top: 20px;">Steam content: <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3649195685" style="color: var(--bright-red);">Открыть в Steam</a></p>
                 </div>
             </div>
 
             <div class="sidebar">
                 <div class="side-block">
                     <div class="character-preview">
-                        <img src="https://i.ibb.co/LhYfD8p/image-626619.jpg" alt="Character">
+                        <img src="https://i.ibb.co/LhYfD8p/image-626619.jpg" alt="Z-City Character">
                     </div>
                 </div>
             </div>
