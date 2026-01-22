@@ -1,141 +1,211 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z-CITY | Wiki System</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Montserrat:wght@900&display=swap');
-
-        body { 
-            background: #050000; 
-            color: #ff3333; 
-            font-family: 'Montserrat', sans-serif; 
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width: 100vw;
+        :root {
+            --bg-dark: #161616;
+            --bg-card: #252525;
+            --accent-red: #8b0000;
+            --bright-red: #ff3333;
+            --nav-black: #000000;
+            --text-main: #d1d1d1;
         }
 
-        /* БЕСКОНЕЧНАЯ СЕТКА */
-        #grid-bg {
-            position: fixed;
-            top: 0; left: 0; 
-            width: 100%; height: 100%;
-            /* Паттерн сетки через градиенты */
-            background-image: 
-                linear-gradient(to right, rgba(255, 0, 0, 0.08) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 0, 0, 0.08) 1px, transparent 1px);
-            background-size: 60px 60px;
-            /* Анимация движения фона */
-            animation: gridScroll 20s linear infinite;
-            z-index: -1;
+        html { scroll-behavior: smooth; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.4;
         }
 
-        @keyframes gridScroll {
-            from { background-position: 0 0; }
-            to { background-position: 60px 60px; }
-        }
-
-        /* КОНТЕЙНЕР ЛОГОТИПА */
-        .logo-center-wrapper {
+        /* --- ШАПКА --- */
+        header {
+            background-color: var(--nav-black);
+            padding: 10px 15%;
             display: flex;
             align-items: center;
-            justify-content: center;
-            position: relative;
-            /* Гарантирует, что всё всегда будет по центру */
+            border-bottom: 2px solid var(--accent-red);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #fff;
+            margin-right: 50px;
+            letter-spacing: -1px;
+            cursor: pointer;
+        }
+
+        .logo span { color: var(--bright-red); }
+
+        nav { display: flex; gap: 20px; }
+
+        .nav-link {
+            text-decoration: none;
+            color: #999;
+            text-transform: uppercase;
+            font-size: 16px;
+            transition: 0.2s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #fff;
+            border-bottom: 2px solid var(--bright-red);
+        }
+
+        /* --- КОНТЕНТ --- */
+        .wrapper {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+        }
+
+        .content-main {
+            background-color: var(--bg-card);
+            padding: 25px;
+            border-radius: 2px;
+            min-height: 600px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 { color: #fff; font-size: 18px; font-weight: normal; margin-bottom: 15px; }
+        .description { font-size: 14px; color: #bbb; margin-bottom: 25px; }
+
+        .wiki-item {
+            background: #1a1a1a;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--accent-red);
+            transition: 0.3s;
+        }
+        .wiki-item:hover { background: #2a2a2a; border-left-color: var(--bright-red); }
+
+        /* --- ПРАВАЯ ПАНЕЛЬ --- */
+        .side-block {
+            background-color: var(--bg-card);
+            padding: 15px;
             text-align: center;
+            border: 1px solid #333;
+            position: sticky;
+            top: 80px;
         }
 
-        .z-char {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 120px;
-            color: #ff0000;
-            opacity: 0;
-            transform: scale(3);
-            filter: blur(20px);
-            text-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
-            animation: z-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            display: inline-block;
-        }
-
-        .suffix-container {
+        .character-preview {
+            width: 100%;
+            height: 400px;
+            background: #111;
             display: flex;
             align-items: center;
-            overflow: hidden;
-            width: 0;
-            opacity: 0;
-            white-space: nowrap;
-            font-size: 120px;
-            /* Раскрытие текста после появления Z */
-            animation: expand-suffix 1s 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            justify-content: center;
         }
-
-        .dash { color: #ff0000; margin-right: 10px; }
-        .grad { color: #ffffff; text-shadow: 0 0 30px rgba(255, 255, 255, 0.5); }
-
-        /* АНИМАЦИИ */
-        @keyframes z-in {
-            to { opacity: 1; transform: scale(1); filter: blur(0); }
-        }
-
-        @keyframes expand-suffix {
-            from { width: 0; opacity: 0; }
-            to { width: 500px; opacity: 1; } /* Достаточная ширина для -GRAD */
-        }
-
-        /* ПОЛОСА ЗАГРУЗКИ */
-        .loading-ui { 
-            position: fixed; 
-            bottom: 10%; 
-            width: 450px;
-            text-align: center;
-            background: rgba(15, 0, 0, 0.85);
-            padding: 20px 40px;
-            border-radius: 100px; /* Скруглённый стиль */
-            border: 1px solid rgba(255, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        .bar-bg { 
-            width: 100%; height: 4px; background: rgba(255, 0, 0, 0.1); 
-            border-radius: 10px; margin-top: 15px; overflow: hidden;
-        }
-
-        #fill { 
-            width: 0%; height: 100%; background: #ff0000; 
-            box-shadow: 0 0 15px #ff0000;
-            transition: width 0.4s ease-out; 
-        }
-
-        #status { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; opacity: 0.7; }
     </style>
 </head>
 <body>
-    <div id="grid-bg"></div>
-    
-    <div class="logo-center-wrapper">
-        <span class="z-char">Z</span>
-        <div class="suffix-container">
-            <span class="dash">-</span><span class="grad">DURKA</span>
+
+    <header>
+        <div class="logo" onclick="openTab('main')"><span>Z</span>DURKA</div>
+        <nav>
+            <button class="nav-link active" id="btn-main" onclick="openTab('main')">Main</button>
+            <button class="nav-link" id="btn-wiki" onclick="openTab('wiki')">Wiki</button>
+            <button class="nav-link" onclick="window.open('https://discord.gg/Wf5tfN9x', '_blank')">Discord</button>
+            <button class="nav-link" id="btn-Content" onclick="openTab('Content')">Content</button>
+        </nav>
+    </header>
+
+    <div class="wrapper">
+        <div class="grid-container">
+            
+            <div class="content-main">
+                
+                <div id="main" class="tab-content active">
+                    <h2>About site</h2>
+                    <p class="description">Это официальный информационный ресурс сервера Z-City. Проект базируется на уникальных режимах Garry's Mod.</p>
+                    <div style="width: 100%; aspect-ratio: 16/9; background: #000; border: 1px solid #333; display: flex; align-items: center; justify-content: center;">
+                        <span style="color: #444;">[ VIDEO PREVIEW ]</span>
+                    </div>
+                </div>
+
+                <div id="wiki" class="tab-content">
+                    <h2>Wiki / База знаний</h2>
+                    <p class="description">Изучите руководства и игровые механики:</p>
+                    <div class="wiki-item"><h4>Гайд для новичков</h4><p style="font-size: 12px; color: #777;">Основы выживания и взаимодействия на сервере.</p></div>
+                    <div class="wiki-item"><h4>Роли</h4><p style="font-size: 12px; color: #777;">Кем вы можете стать в мире Z-City.</p></div>
+                    <div class="wiki-item"><h4>Регдолл</h4><p style="font-size: 12px; color: #777;">Как создавать предметы и управлять ресурсами.</p></div>
+                </div>
+
+                <div id="Content" class="tab-content">
+                    <h2>Z-Durka Content</h2>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px;">
+                        <tr style="background: #111; color: #fff; text-align: left;">
+                            <th style="padding: 12px;">Steam content https://steamcommunity.com/sharedfiles/filedetails/?id=3649195685</th>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="sidebar">
+                <div class="side-block">
+                    <div class="character-preview">
+                        <span style="color: #333; font-weight: bold;">[ CHARACTER ]</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <div class="loading-ui">
-        <div id="status">Z-DURKA INITIALIZING</div>
-        <div class="bar-bg"><div id="fill"></div></div>
-    </div>
-
     <script>
-        // Интеграция с Garry's Mod
-        function SetProgress(fraction) {
-            document.getElementById('fill').style.width = (fraction * 100) + "%";
-        }
+        function openTab(tabName) {
+            var contents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove("active");
+            }
 
-        function DownloadingFile(fileName) {
-            document.getElementById('status').innerText = "DOWNLOADING: " + fileName;
+            var buttons = document.getElementsByClassName("nav-link");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove("active");
+            }
+
+            document.getElementById(tabName).classList.add("active");
+            document.getElementById('btn-' + tabName).classList.add("active");
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
+
 </body>
 </html>
