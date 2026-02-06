@@ -4,21 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VES-City | Загрузка</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
-        @font-face {
-            font-family: 'Disket Mono';
-            src: url('https://cdn.jsdelivr.net/npm/disket-mono@1.0.0/fonts/Disket-Mono-Regular.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-        
-        @font-face {
-            font-family: 'Disket Mono';
-            src: url('https://cdn.jsdelivr.net/npm/disket-mono@1.0.0/fonts/Disket-Mono-Bold.ttf') format('truetype');
-            font-weight: bold;
-            font-style: normal;
-        }
-        
         * {
             margin: 0;
             padding: 0;
@@ -27,7 +14,7 @@
         
         body {
             background-color: #000;
-            font-family: 'Disket Mono', monospace;
+            font-family: 'Share Tech Mono', monospace;
             overflow: hidden;
             height: 100vh;
             width: 100vw;
@@ -45,11 +32,6 @@
                     rgba(202, 167, 124, 0.15) 0%, 
                     rgba(0, 0, 0, 0.95) 40%, 
                     rgba(0, 0, 0, 1) 100%
-                ),
-                radial-gradient(
-                    circle at 30% 30%, 
-                    rgba(202, 167, 124, 0.08) 0%, 
-                    transparent 50%
                 );
             overflow: hidden;
             display: flex;
@@ -63,28 +45,21 @@
             width: 200%;
             height: 200%;
             background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-            background-size: 60px 60px;
-            background-position: center;
+                linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+            background-size: 50px 50px;
             top: -50%;
             left: -50%;
+            animation: gridMove 20s linear infinite;
             opacity: 0;
             animation: 
-                gridAppear 1.5s ease-out 0.5s forwards,
-                gridMove 25s linear infinite;
-            transform-origin: center;
+                gridFadeIn 1s ease-out 0.3s forwards,
+                gridMove 20s linear infinite;
         }
         
-        @keyframes gridAppear {
-            0% {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
+        @keyframes gridFadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
         
         @keyframes gridMove {
@@ -92,7 +67,7 @@
                 transform: translateX(0) translateY(0);
             }
             100% {
-                transform: translateX(-30px) translateY(-30px);
+                transform: translateX(-25px) translateY(-25px);
             }
         }
         
@@ -100,25 +75,20 @@
         .content-wrapper {
             position: relative;
             z-index: 10;
+            text-align: center;
             width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
         }
         
-        /* Анимация появления заголовка */
+        /* Заголовок VES-City */
         .title-container {
-            text-align: center;
             margin-bottom: 50px;
             opacity: 0;
             transform: translateY(30px);
-            animation: titleSlideUp 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s forwards;
+            animation: titleAppear 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.8s forwards;
         }
         
-        @keyframes titleSlideUp {
+        @keyframes titleAppear {
             0% {
                 opacity: 0;
                 transform: translateY(30px);
@@ -129,102 +99,75 @@
             }
         }
         
-        /* Стиль заголовка VES-City */
         .main-title {
             font-size: 5.5rem;
             font-weight: bold;
             letter-spacing: 8px;
             text-transform: uppercase;
-            position: relative;
             margin-bottom: 20px;
         }
         
-        /* VES - бежевый с анимацией появления */
-        .ves-part {
-            color: #caa77c;
-            display: inline-block;
-            opacity: 0;
-            transform: translateX(-50px);
-            animation: vesSlideIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1.5s forwards;
-            text-shadow: 
-                0 0 15px rgba(202, 167, 124, 0.5),
-                0 0 30px rgba(202, 167, 124, 0.3);
-        }
-        
-        @keyframes vesSlideIn {
-            0% {
-                opacity: 0;
-                transform: translateX(-50px) scale(0.8);
-            }
-            60% {
-                opacity: 1;
-                transform: translateX(0) scale(1.1);
-                text-shadow: 
-                    0 0 25px rgba(202, 167, 124, 0.8),
-                    0 0 50px rgba(202, 167, 124, 0.5);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-                text-shadow: 
-                    0 0 15px rgba(202, 167, 124, 0.5),
-                    0 0 30px rgba(202, 167, 124, 0.3);
-            }
-        }
-        
-        /* -CITY - белый с анимацией */
-        .city-part {
+        /* VESCITY без пробела */
+        .vescity-text {
             color: #ffffff;
             display: inline-block;
             opacity: 0;
-            transform: translateX(50px);
-            animation: citySlideIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1.8s forwards;
+            transform: scale(0.8);
+            animation: textAppear 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1.2s forwards;
         }
         
-        @keyframes citySlideIn {
+        /* VES часть - бежевая */
+        .ves-part {
+            color: #caa77c;
+            text-shadow: 
+                0 0 10px rgba(202, 167, 124, 0.5),
+                0 0 20px rgba(202, 167, 124, 0.3);
+        }
+        
+        /* -CITY часть - белая */
+        .city-part {
+            color: #ffffff;
+        }
+        
+        @keyframes textAppear {
             0% {
                 opacity: 0;
-                transform: translateX(50px) scale(0.8);
+                transform: scale(0.8);
             }
-            60% {
+            70% {
                 opacity: 1;
-                transform: translateX(0) scale(1.1);
+                transform: scale(1.05);
             }
             100% {
                 opacity: 1;
-                transform: translateX(0) scale(1);
+                transform: scale(1);
             }
         }
         
         /* Линия под заголовком */
         .title-line {
             width: 0;
-            height: 3px;
+            height: 2px;
             background: linear-gradient(90deg, 
                 transparent, 
                 #caa77c, 
                 transparent);
-            margin: 10px auto;
-            border-radius: 2px;
-            animation: lineExpand 1s ease-out 2.2s forwards;
+            margin: 0 auto;
+            animation: lineExpand 1s ease-out 1.8s forwards;
         }
         
         @keyframes lineExpand {
-            0% {
-                width: 0;
-            }
-            100% {
-                width: 400px;
-            }
+            0% { width: 0; }
+            100% { width: 400px; }
         }
         
         /* Контейнер загрузки */
         .loading-container {
             opacity: 0;
-            animation: fadeIn 0.8s ease-out 2.5s forwards;
+            animation: fadeIn 0.8s ease-out 2s forwards;
             width: 500px;
             max-width: 90%;
-            text-align: center;
+            margin: 0 auto;
         }
         
         @keyframes fadeIn {
@@ -233,7 +176,7 @@
         }
         
         .loading-text {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             letter-spacing: 4px;
             color: rgba(255, 255, 255, 0.9);
             margin-bottom: 20px;
@@ -243,13 +186,12 @@
         /* Полоса загрузки */
         .loading-bar {
             width: 100%;
-            height: 4px;
+            height: 3px;
             background-color: rgba(0, 0, 0, 0.4);
             border-radius: 2px;
             overflow: hidden;
             margin-bottom: 15px;
             border: 1px solid rgba(202, 167, 124, 0.2);
-            box-shadow: 0 0 10px rgba(202, 167, 124, 0.1);
         }
         
         .loading-progress {
@@ -259,7 +201,7 @@
                 rgba(202, 167, 124, 0.6) 0%, 
                 rgba(202, 167, 124, 1) 50%, 
                 rgba(255, 255, 255, 0.9) 100%);
-            animation: loadingAnimation 4s ease-in-out infinite 3s;
+            animation: loadingAnimation 4s ease-in-out infinite 2.5s;
             transition: width 0.3s ease;
         }
         
@@ -269,7 +211,7 @@
                 opacity: 0.8;
             }
             50% {
-                width: 75%;
+                width: 70%;
                 opacity: 1;
             }
             100% {
@@ -280,7 +222,7 @@
         
         /* Статус загрузки */
         .status-text {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             letter-spacing: 2px;
             color: rgba(202, 167, 124, 0.8);
             min-height: 24px;
@@ -290,113 +232,72 @@
         /* Декор углов */
         .corner {
             position: absolute;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             opacity: 0;
-            animation: fadeIn 1s ease-out 2s forwards;
+            animation: fadeIn 1s ease-out 1.5s forwards;
         }
         
         .corner-tl {
-            top: 30px;
-            left: 30px;
-            border-top: 2px solid rgba(202, 167, 124, 0.5);
-            border-left: 2px solid rgba(202, 167, 124, 0.5);
+            top: 20px;
+            left: 20px;
+            border-top: 1px solid rgba(202, 167, 124, 0.5);
+            border-left: 1px solid rgba(202, 167, 124, 0.5);
         }
         
         .corner-tr {
-            top: 30px;
-            right: 30px;
-            border-top: 2px solid rgba(202, 167, 124, 0.5);
-            border-right: 2px solid rgba(202, 167, 124, 0.5);
+            top: 20px;
+            right: 20px;
+            border-top: 1px solid rgba(202, 167, 124, 0.5);
+            border-right: 1px solid rgba(202, 167, 124, 0.5);
         }
         
         .corner-bl {
-            bottom: 30px;
-            left: 30px;
-            border-bottom: 2px solid rgba(202, 167, 124, 0.5);
-            border-left: 2px solid rgba(202, 167, 124, 0.5);
+            bottom: 20px;
+            left: 20px;
+            border-bottom: 1px solid rgba(202, 167, 124, 0.5);
+            border-left: 1px solid rgba(202, 167, 124, 0.5);
         }
         
         .corner-br {
-            bottom: 30px;
-            right: 30px;
-            border-bottom: 2px solid rgba(202, 167, 124, 0.5);
-            border-right: 2px solid rgba(202, 167, 124, 0.5);
+            bottom: 20px;
+            right: 20px;
+            border-bottom: 1px solid rgba(202, 167, 124, 0.5);
+            border-right: 1px solid rgba(202, 167, 124, 0.5);
         }
         
         /* Информация сервера */
         .server-info {
             position: absolute;
-            bottom: 20px;
+            bottom: 15px;
             width: 100%;
             text-align: center;
-            color: rgba(202, 167, 124, 0.5);
-            font-size: 0.85rem;
+            color: rgba(202, 167, 124, 0.4);
+            font-size: 0.8rem;
             letter-spacing: 1.5px;
             opacity: 0;
-            animation: fadeIn 1s ease-out 2.8s forwards;
-        }
-        
-        /* Эффект частиц */
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 5;
-        }
-        
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background-color: rgba(202, 167, 124, 0.6);
-            border-radius: 50%;
-            animation: particleFloat 3s linear infinite;
-        }
-        
-        @keyframes particleFloat {
-            0% {
-                transform: translateY(0) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) translateX(20px);
-                opacity: 0;
-            }
+            animation: fadeIn 1s ease-out 2.2s forwards;
         }
         
         /* Эффект свечения VES */
         .ves-glow {
             position: absolute;
-            width: 300px;
-            height: 150px;
+            width: 250px;
+            height: 120px;
             background: radial-gradient(
                 ellipse at center,
-                rgba(202, 167, 124, 0.15) 0%,
+                rgba(202, 167, 124, 0.1) 0%,
                 transparent 70%
             );
-            filter: blur(20px);
+            filter: blur(15px);
             z-index: 1;
             opacity: 0;
-            animation: glowPulse 3s ease-in-out infinite 2s;
+            animation: glowAppear 1s ease-out 1.2s forwards;
         }
         
-        @keyframes glowPulse {
-            0%, 100% {
-                opacity: 0.3;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(1.05);
-            }
+        @keyframes glowAppear {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
         }
         
         /* Адаптивность */
@@ -419,6 +320,11 @@
                 width: 30px;
                 height: 30px;
             }
+            
+            .ves-glow {
+                width: 180px;
+                height: 80px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -432,15 +338,45 @@
                 letter-spacing: 2px;
             }
         }
+        
+        /* Эффект печатания */
+        .typing {
+            overflow: hidden;
+            border-right: 2px solid #caa77c;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #caa77c; }
+        }
+        
+        /* Анимация свечения VES */
+        @keyframes vesGlowPulse {
+            0%, 100% {
+                text-shadow: 
+                    0 0 10px rgba(202, 167, 124, 0.5),
+                    0 0 20px rgba(202, 167, 124, 0.3);
+            }
+            50% {
+                text-shadow: 
+                    0 0 15px rgba(202, 167, 124, 0.7),
+                    0 0 30px rgba(202, 167, 124, 0.5),
+                    0 0 45px rgba(202, 167, 124, 0.3);
+            }
+        }
     </style>
 </head>
 <body>
     <div class="loading-screen">
         <div class="grid-background"></div>
-        
-        <div class="ves-glow" id="vesGlow"></div>
-        
-        <div class="particles" id="particlesContainer"></div>
+        <div class="ves-glow"></div>
         
         <div class="corner corner-tl"></div>
         <div class="corner corner-tr"></div>
@@ -450,14 +386,15 @@
         <div class="content-wrapper">
             <div class="title-container">
                 <h1 class="main-title">
-                    <span class="ves-part">VES</span>
-                    <span class="city-part">-CITY</span>
+                    <span class="vescity-text">
+                        <span class="ves-part">VES</span><span class="city-part">-CITY</span>
+                    </span>
                 </h1>
                 <div class="title-line"></div>
             </div>
             
             <div class="loading-container">
-                <div class="loading-text" id="loadingText">ПОДКЛЮЧЕНИЕ К СЕРВЕРУ</div>
+                <div class="loading-text">ПОДКЛЮЧЕНИЕ К СЕРВЕРУ</div>
                 <div class="loading-bar">
                     <div class="loading-progress" id="loadingProgress"></div>
                 </div>
@@ -466,49 +403,11 @@
         </div>
         
         <div class="server-info">
-            VES-City RP Server | Подключаемся...
+            VES-City Server | v2.1.4
         </div>
     </div>
 
     <script>
-        // Инициализация частиц
-        function createParticles() {
-            const container = document.getElementById('particlesContainer');
-            const particleCount = 30;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                
-                // Случайная позиция
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                
-                // Случайная задержка анимации
-                particle.style.animationDelay = Math.random() * 3 + 's';
-                
-                // Случайный размер
-                const size = 1 + Math.random() * 2;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                
-                container.appendChild(particle);
-            }
-        }
-        
-        // Позиционирование свечения VES
-        function positionVesGlow() {
-            const glow = document.getElementById('vesGlow');
-            const vesPart = document.querySelector('.ves-part');
-            
-            // Позиционируем свечение относительно VES
-            if (vesPart) {
-                const rect = vesPart.getBoundingClientRect();
-                glow.style.left = (rect.left + rect.width / 2 - 150) + 'px';
-                glow.style.top = (rect.top + rect.height / 2 - 75) + 'px';
-            }
-        }
-        
         // Сообщения статуса
         const statusMessages = [
             "Инициализация системы...",
@@ -521,64 +420,39 @@
             "Подготовка завершена..."
         ];
         
-        const loadingPhrases = [
-            "ПОДКЛЮЧЕНИЕ К СЕРВЕРУ",
-            "ЗАГРУЗКА ДАННЫХ",
-            "СИНХРОНИЗАЦИЯ",
-            "ПОЧТИ ГОТОВО"
-        ];
-        
         let currentStatus = 0;
-        let currentPhrase = 0;
         const statusText = document.getElementById('statusText');
-        const loadingText = document.getElementById('loadingText');
         const loadingProgress = document.getElementById('loadingProgress');
+        const vesPart = document.querySelector('.ves-part');
         
         // Смена статусов
         function updateStatus() {
             statusText.textContent = statusMessages[currentStatus];
             currentStatus = (currentStatus + 1) % statusMessages.length;
             
-            // Каждые 2 статуса меняем основную фразу
-            if (currentStatus % 2 === 0) {
-                loadingText.textContent = loadingPhrases[currentPhrase];
-                currentPhrase = (currentPhrase + 1) % loadingPhrases.length;
-            }
-            
-            // Эффект печатания для последнего статуса
-            if (currentStatus === statusMessages.length - 1) {
-                typewriterEffect(statusText, "Подготовка завершена...");
-            }
+            // Эффект печатания для каждого нового статуса
+            statusText.classList.remove('typing');
+            void statusText.offsetWidth; // Перезапуск анимации
+            statusText.classList.add('typing');
         }
         
-        // Эффект печатания текста
-        function typewriterEffect(element, text, speed = 50) {
-            let i = 0;
-            element.textContent = '';
-            
-            function type() {
-                if (i < text.length) {
-                    element.textContent += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                }
-            }
-            
-            type();
+        // Анимация свечения VES
+        function startVesGlow() {
+            vesPart.style.animation = 'vesGlowPulse 2s ease-in-out infinite';
         }
         
         // Симуляция прогресса загрузки
         let progress = 0;
         function simulateProgress() {
             if (progress < 100) {
-                // Разная скорость прогресса в зависимости от этапа
+                // Разная скорость прогресса
                 let increment;
                 if (progress < 30) {
-                    increment = 3 + Math.random() * 4;
-                } else if (progress < 70) {
-                    increment = 5 + Math.random() * 6;
-                } else {
                     increment = 2 + Math.random() * 3;
+                } else if (progress < 70) {
+                    increment = 4 + Math.random() * 5;
+                } else {
+                    increment = 1 + Math.random() * 2;
                 }
                 
                 progress += increment;
@@ -586,29 +460,36 @@
                 
                 loadingProgress.style.width = progress + '%';
                 
-                // Изменение цвета при достижении 100%
+                // Изменение при достижении 100%
                 if (progress >= 100) {
                     loadingProgress.style.background = 'linear-gradient(90deg, #caa77c 0%, #ffffff 100%)';
                     loadingProgress.style.animation = 'none';
-                    loadingText.textContent = "СЕРВЕР ГОТОВ";
+                    document.querySelector('.loading-text').textContent = "СЕРВЕР ГОТОВ";
                     statusText.textContent = "Можно подключаться к игре";
                     
                     // Эффект завершения
                     completeLoading();
+                    return;
                 }
                 
-                // Следующее обновление с задержкой
-                const delay = 300 + Math.random() * 500;
+                // Следующее обновление
+                const delay = 300 + Math.random() * 400;
                 setTimeout(simulateProgress, delay);
             }
         }
         
         // Эффект завершения загрузки
         function completeLoading() {
-            // Усиливаем свечение VES
-            const glow = document.getElementById('vesGlow');
-            glow.style.background = 'radial-gradient(ellipse at center, rgba(202, 167, 124, 0.3) 0%, transparent 70%)';
-            glow.style.filter = 'blur(30px)';
+            // Усиливаем свечение
+            const glow = document.querySelector('.ves-glow');
+            glow.style.background = 'radial-gradient(ellipse at center, rgba(202, 167, 124, 0.2) 0%, transparent 70%)';
+            glow.style.filter = 'blur(20px)';
+            
+            // Усиливаем свечение текста
+            vesPart.style.textShadow = 
+                '0 0 20px rgba(202, 167, 124, 0.8), ' +
+                '0 0 40px rgba(202, 167, 124, 0.6), ' +
+                '0 0 60px rgba(202, 167, 124, 0.4)';
             
             // Добавляем вспышку
             const flash = document.createElement('div');
@@ -617,19 +498,19 @@
             flash.style.left = '0';
             flash.style.width = '100%';
             flash.style.height = '100%';
-            flash.style.background = 'radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 70%)';
+            flash.style.background = 'radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 70%)';
             flash.style.zIndex = '2';
-            flash.style.animation = 'flash 1s ease-out forwards';
+            flash.style.animation = 'flashEffect 1s ease-out forwards';
             
             document.querySelector('.loading-screen').appendChild(flash);
             
             // Стиль для вспышки
             const style = document.createElement('style');
             style.textContent = `
-                @keyframes flash {
+                @keyframes flashEffect {
                     0% { opacity: 0; transform: scale(1); }
-                    50% { opacity: 0.6; transform: scale(1.05); }
-                    100% { opacity: 0; transform: scale(1.1); }
+                    50% { opacity: 0.4; }
+                    100% { opacity: 0; transform: scale(1.05); }
                 }
             `;
             document.head.appendChild(style);
@@ -639,25 +520,46 @@
             }, 1000);
         }
         
-        // Запускаем все анимации после загрузки
+        // Позиционирование свечения VES
+        function positionGlow() {
+            const glow = document.querySelector('.ves-glow');
+            const title = document.querySelector('.title-container');
+            
+            if (title && glow) {
+                const rect = title.getBoundingClientRect();
+                glow.style.left = (rect.left + rect.width / 2 - 125) + 'px';
+                glow.style.top = (rect.top + rect.height / 2 - 60) + 'px';
+            }
+        }
+        
+        // Запускаем все после загрузки
         window.addEventListener('load', () => {
-            // Создаем частицы
-            createParticles();
-            
             // Позиционируем свечение
-            positionVesGlow();
+            positionGlow();
             
-            // Обновляем позицию свечения при изменении размера окна
-            window.addEventListener('resize', positionVesGlow);
+            // Запускаем пульсацию VES
+            setTimeout(startVesGlow, 2000);
+            
+            // Обновляем позицию при изменении размера окна
+            window.addEventListener('resize', positionGlow);
             
             // Запускаем смену статусов
             setInterval(updateStatus, 2500);
             
-            // Запускаем симуляцию прогресса
-            setTimeout(simulateProgress, 3000);
-            
-            // Обновляем статус каждые 2.5 секунд
+            // Начальное обновление статуса
             updateStatus();
+            
+            // Запускаем симуляцию прогресса
+            setTimeout(simulateProgress, 2000);
+            
+            // Пульсация свечения фона
+            setInterval(() => {
+                const glow = document.querySelector('.ves-glow');
+                const scale = 0.95 + Math.random() * 0.1;
+                const opacity = 0.8 + Math.random() * 0.2;
+                glow.style.transform = `scale(${scale})`;
+                glow.style.opacity = opacity;
+            }, 2000);
         });
     </script>
 </body>
