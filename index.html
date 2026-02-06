@@ -1,258 +1,231 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VES-City Loading Screen</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>VES-City | Загрузка</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             background-color: #000;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Arial', sans-serif;
             overflow: hidden;
             height: 100vh;
             width: 100vw;
         }
-
-        .loading-container {
+        
+        .loading-screen {
             position: relative;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                135deg, 
-                rgba(202, 167, 124, 1) 0%, 
-                rgba(202, 167, 124, 0.7) 20%, 
-                rgba(0, 0, 0, 0.9) 70%, 
-                rgba(0, 0, 0, 1) 100%
-            );
-            overflow: hidden;
+            background: linear-gradient(135deg, rgba(202, 167, 124, 1) 0%, rgba(0, 0, 0, 1) 100%);
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
-
-        /* Animated grid */
-        .grid {
+        
+        /* Анимированная сетка */
+        .grid-background {
             position: absolute;
             width: 200%;
             height: 200%;
             background-image: 
                 linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            transform: perspective(500px) rotateX(60deg);
-            animation: gridMove 30s linear infinite;
-            top: -50%;
-            left: -50%;
+            background-size: 40px 40px;
+            animation: gridMove 20s linear infinite;
+            transform-origin: center;
         }
-
+        
         @keyframes gridMove {
             0% {
-                transform: perspective(500px) rotateX(60deg) translateY(0);
+                transform: translate(-25%, -25%) rotate(0deg);
             }
             100% {
-                transform: perspective(500px) rotateX(60deg) translateY(50px);
+                transform: translate(-25%, -25%) rotate(360deg);
             }
         }
-
-        /* Grid pulse effect */
-        .grid-pulse {
+        
+        /* Эффект свечения сетки */
+        .grid-glow {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: radial-gradient(
-                circle at center,
-                transparent 30%,
-                rgba(202, 167, 124, 0.1) 70%
-            );
-            animation: pulse 4s ease-in-out infinite;
+            background: radial-gradient(circle at center, transparent 30%, rgba(202, 167, 124, 0.1) 70%);
+            z-index: 1;
         }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.6; }
-        }
-
-        /* Main content */
+        
+        /* Основной контент */
         .content {
             position: relative;
-            z-index: 10;
+            z-index: 2;
             text-align: center;
             color: white;
-            padding: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
-
-        /* VES-City title */
+        
+        /* Надпись VES-City */
         .title {
-            font-size: 5.5rem;
-            font-weight: 900;
-            letter-spacing: 8px;
-            margin-bottom: 30px;
+            font-size: 5rem;
+            font-weight: bold;
+            letter-spacing: 0.5rem;
             text-transform: uppercase;
-            color: transparent;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 1) 0%,
-                rgba(202, 167, 124, 1) 50%,
-                rgba(255, 255, 255, 1) 100%
-            );
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, #ffffff, #caa77c);
             -webkit-background-clip: text;
             background-clip: text;
-            text-shadow: 0 0 30px rgba(202, 167, 124, 0.7);
-            animation: titleGlow 3s ease-in-out infinite alternate;
+            color: transparent;
+            animation: pulse 3s ease-in-out infinite;
+            position: relative;
         }
-
-        @keyframes titleGlow {
-            0% {
-                text-shadow: 0 0 20px rgba(202, 167, 124, 0.5),
-                             0 0 40px rgba(202, 167, 124, 0.3);
-            }
-            100% {
-                text-shadow: 0 0 30px rgba(202, 167, 124, 0.8),
-                             0 0 60px rgba(202, 167, 124, 0.5),
-                             0 0 80px rgba(202, 167, 124, 0.3);
-            }
-        }
-
+        
         .title::after {
             content: '';
-            display: block;
-            width: 300px;
-            height: 4px;
-            background: linear-gradient(
-                to right,
-                transparent,
-                rgba(202, 167, 124, 1),
-                transparent
-            );
-            margin: 15px auto;
-            border-radius: 2px;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #caa77c, transparent);
         }
-
-        /* Loading bar */
-        .loading-bar-container {
-            width: 500px;
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.9;
+                transform: scale(1.02);
+            }
+        }
+        
+        /* Индикатор загрузки */
+        .loading-container {
+            width: 300px;
+            margin-top: 30px;
+        }
+        
+        .loading-text {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #caa77c;
+            letter-spacing: 2px;
+            min-height: 30px;
+        }
+        
+        .loading-bar {
+            width: 100%;
             height: 6px;
             background-color: rgba(0, 0, 0, 0.5);
             border-radius: 3px;
-            margin: 40px auto 20px;
             overflow: hidden;
-            border: 1px solid rgba(202, 167, 124, 0.3);
-            box-shadow: 0 0 15px rgba(202, 167, 124, 0.2);
+            box-shadow: 0 0 5px rgba(202, 167, 124, 0.5);
         }
-
-        .loading-bar {
+        
+        .loading-progress {
             width: 0%;
             height: 100%;
-            background: linear-gradient(
-                90deg,
-                rgba(202, 167, 124, 0) 0%,
-                rgba(202, 167, 124, 1) 50%,
-                rgba(255, 255, 255, 1) 100%
-            );
-            animation: loading 3s ease-in-out infinite;
+            background: linear-gradient(to right, #caa77c, #ffffff);
             border-radius: 3px;
+            animation: loading 5s ease-in-out infinite;
         }
-
+        
         @keyframes loading {
-            0% { width: 0%; }
-            50% { width: 100%; }
-            100% { width: 0%; }
+            0% {
+                width: 0%;
+            }
+            70% {
+                width: 100%;
+            }
+            100% {
+                width: 100%;
+            }
         }
-
-        /* Loading text */
-        .loading-text {
+        
+        /* Дополнительные детали */
+        .subtitle {
             font-size: 1.2rem;
-            letter-spacing: 3px;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 15px;
-            text-transform: uppercase;
-        }
-
-        .loading-status {
-            font-size: 1rem;
-            letter-spacing: 2px;
-            color: rgba(202, 167, 124, 0.9);
-            margin-top: 10px;
-            min-height: 24px;
-        }
-
-        /* Decorative elements */
-        .corner {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            z-index: 5;
-        }
-
-        .corner-tl {
-            top: 30px;
-            left: 30px;
-            border-top: 3px solid rgba(202, 167, 124, 0.7);
-            border-left: 3px solid rgba(202, 167, 124, 0.7);
-        }
-
-        .corner-tr {
-            top: 30px;
-            right: 30px;
-            border-top: 3px solid rgba(202, 167, 124, 0.7);
-            border-right: 3px solid rgba(202, 167, 124, 0.7);
-        }
-
-        .corner-bl {
-            bottom: 30px;
-            left: 30px;
-            border-bottom: 3px solid rgba(202, 167, 124, 0.7);
-            border-left: 3px solid rgba(202, 167, 124, 0.7);
-        }
-
-        .corner-br {
-            bottom: 30px;
-            right: 30px;
-            border-bottom: 3px solid rgba(202, 167, 124, 0.7);
-            border-right: 3px solid rgba(202, 167, 124, 0.7);
-        }
-
-        /* Server info */
-        .server-info {
-            position: absolute;
-            bottom: 100px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            color: rgba(202, 167, 124, 0.8);
-            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 20px;
             letter-spacing: 1px;
         }
-
-        /* Responsive adjustments */
+        
+        /* Угловые элементы */
+        .corner {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            z-index: 3;
+        }
+        
+        .corner-tl {
+            top: 20px;
+            left: 20px;
+            border-top: 2px solid rgba(202, 167, 124, 0.7);
+            border-left: 2px solid rgba(202, 167, 124, 0.7);
+        }
+        
+        .corner-tr {
+            top: 20px;
+            right: 20px;
+            border-top: 2px solid rgba(202, 167, 124, 0.7);
+            border-right: 2px solid rgba(202, 167, 124, 0.7);
+        }
+        
+        .corner-bl {
+            bottom: 20px;
+            left: 20px;
+            border-bottom: 2px solid rgba(202, 167, 124, 0.7);
+            border-left: 2px solid rgba(202, 167, 124, 0.7);
+        }
+        
+        .corner-br {
+            bottom: 20px;
+            right: 20px;
+            border-bottom: 2px solid rgba(202, 167, 124, 0.7);
+            border-right: 2px solid rgba(202, 167, 124, 0.7);
+        }
+        
+        /* Версия сервера */
+        .version {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            color: rgba(202, 167, 124, 0.5);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+        
+        /* Адаптивность */
         @media (max-width: 768px) {
             .title {
                 font-size: 3rem;
-                letter-spacing: 4px;
+                letter-spacing: 0.3rem;
             }
             
-            .loading-bar-container {
-                width: 300px;
+            .loading-container {
+                width: 250px;
             }
             
             .corner {
-                width: 40px;
-                height: 40px;
+                width: 30px;
+                height: 30px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="loading-container">
-        <div class="grid"></div>
-        <div class="grid-pulse"></div>
+    <div class="loading-screen">
+        <div class="grid-background"></div>
+        <div class="grid-glow"></div>
         
         <div class="corner corner-tl"></div>
         <div class="corner corner-tr"></div>
@@ -262,82 +235,176 @@
         <div class="content">
             <h1 class="title">VES-City</h1>
             
-            <div class="loading-bar-container">
-                <div class="loading-bar"></div>
+            <div class="loading-container">
+                <div class="loading-text" id="loadingText">ЗАГРУЗКА СЕРВЕРА</div>
+                <div class="loading-bar">
+                    <div class="loading-progress" id="loadingProgress"></div>
+                </div>
             </div>
             
-            <div class="loading-text">Loading Server</div>
-            <div class="loading-status" id="status">Initializing...</div>
+            <div class="subtitle" id="subtitle">Подготовка к входу в мир возможностей...</div>
         </div>
         
-        <div class="server-info">
-            <div>VES-City RP Server | garrysmod.com</div>
-        </div>
+        <div class="version">VES-City v2.1.4</div>
     </div>
 
     <script>
-        // Loading status messages
-        const statusMessages = [
-            "Initializing server modules...",
-            "Loading map resources...",
-            "Synchronizing player data...",
-            "Establishing network connections...",
-            "Loading game assets...",
-            "Preparing spawn points...",
-            "Finalizing server setup...",
-            "Almost ready..."
+        // Динамическое обновление текста загрузки
+        const loadingTexts = [
+            "Инициализация систем...",
+            "Загрузка карты...",
+            "Подготовка объектов...",
+            "Синхронизация с сервером...",
+            "Почти готово..."
         ];
         
-        let currentStatus = 0;
-        const statusElement = document.getElementById('status');
+        const subtitles = [
+            "Подготовка к входу в мир возможностей...",
+            "Генерируем мир VES-City...",
+            "Загружаем окружение...",
+            "Настраиваем физику...",
+            "Подключаем к серверу..."
+        ];
         
-        // Change status message every 2.5 seconds
+        let currentTextIndex = 0;
+        const loadingTextElement = document.getElementById('loadingText');
+        const subtitleElement = document.getElementById('subtitle');
+        const loadingProgressElement = document.getElementById('loadingProgress');
+        
+        // Меняем текст каждые 3 секунды
         setInterval(() => {
-            statusElement.textContent = statusMessages[currentStatus];
-            currentStatus = (currentStatus + 1) % statusMessages.length;
-        }, 2500);
-        
-        // Dynamic grid intensity based on loading progress simulation
-        let gridIntensity = 0.1;
-        const gridElement = document.querySelector('.grid');
-        
-        setInterval(() => {
-            // Simulate loading progress by changing grid intensity
-            gridIntensity = 0.1 + Math.random() * 0.15;
-            gridElement.style.backgroundImage = 
-                `linear-gradient(rgba(255, 255, 255, ${gridIntensity}) 1px, transparent 1px),
-                 linear-gradient(90deg, rgba(255, 255, 255, ${gridIntensity}) 1px, transparent 1px)`;
-        }, 1000);
-        
-        // Add some random glitch effect to the title occasionally
-        setInterval(() => {
-            if (Math.random() > 0.7) {
-                const title = document.querySelector('.title');
-                title.style.transform = 'translateX(' + (Math.random() * 4 - 2) + 'px)';
-                
-                setTimeout(() => {
-                    title.style.transform = 'translateX(0)';
-                }, 100);
-            }
+            currentTextIndex = (currentTextIndex + 1) % loadingTexts.length;
+            loadingTextElement.textContent = loadingTexts[currentTextIndex];
+            subtitleElement.textContent = subtitles[currentTextIndex];
         }, 3000);
         
-        // Simulate progress bar for GMod loading effect
-        const loadingBar = document.querySelector('.loading-bar');
-        let progress = 0;
+        // Случайное мерцание элементов сетки для большего эффекта
+        const gridBackground = document.querySelector('.grid-background');
         
+        setInterval(() => {
+            // Случайно меняем прозрачность сетки для эффекта мерцания
+            const randomOpacity = 0.05 + Math.random() * 0.1;
+            gridBackground.style.opacity = randomOpacity;
+        }, 500);
+        
+        // Добавляем случайные вспышки на фоне
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                const flash = document.createElement('div');
+                flash.style.position = 'absolute';
+                flash.style.top = Math.random() * 100 + '%';
+                flash.style.left = Math.random() * 100 + '%';
+                flash.style.width = '100px';
+                flash.style.height = '100px';
+                flash.style.background = 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)';
+                flash.style.zIndex = '1';
+                flash.style.pointerEvents = 'none';
+                flash.style.animation = 'flashFade 1.5s ease-out forwards';
+                
+                document.querySelector('.loading-screen').appendChild(flash);
+                
+                setTimeout(() => {
+                    flash.remove();
+                }, 1500);
+            }
+        }, 1500);
+        
+        // Анимация для вспышек
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes flashFade {
+                0% {
+                    opacity: 0;
+                    transform: scale(0.5);
+                }
+                20% {
+                    opacity: 0.8;
+                    transform: scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(1.5);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Симуляция реального прогресса загрузки
+        let progress = 0;
         const simulateProgress = () => {
             progress += Math.random() * 15;
-            if (progress > 100) progress = 100;
-            
-            loadingBar.style.width = progress + '%';
-            
-            if (progress < 100) {
-                setTimeout(simulateProgress, 800 + Math.random() * 500);
+            if (progress > 100) {
+                progress = 100;
+                loadingProgressElement.style.animation = 'none';
+                loadingProgressElement.style.width = '100%';
+                loadingTextElement.textContent = "СЕРВЕР ГОТОВ";
+                subtitleElement.textContent = "Подключайтесь к игре...";
+                
+                // Добавляем эффект завершения загрузки
+                const completeFlash = document.createElement('div');
+                completeFlash.style.position = 'absolute';
+                completeFlash.style.top = '0';
+                completeFlash.style.left = '0';
+                completeFlash.style.width = '100%';
+                completeFlash.style.height = '100%';
+                completeFlash.style.background = 'radial-gradient(circle at center, rgba(202,167,124,0.3) 0%, transparent 70%)';
+                completeFlash.style.zIndex = '2';
+                completeFlash.style.pointerEvents = 'none';
+                completeFlash.style.animation = 'completePulse 2s ease-out forwards';
+                
+                document.querySelector('.loading-screen').appendChild(completeFlash);
+                
+                setTimeout(() => {
+                    completeFlash.remove();
+                }, 2000);
+                
+                return;
             }
+            
+            loadingProgressElement.style.width = progress + '%';
+            
+            // Рандомная скорость следующего обновления
+            setTimeout(simulateProgress, 300 + Math.random() * 700);
         };
         
-        // Start progress simulation after a delay
+        // Запускаем симуляцию прогресса
         setTimeout(simulateProgress, 1000);
+        
+        // Добавляем анимацию для завершения загрузки
+        const completeStyle = document.createElement('style');
+        completeStyle.textContent = `
+            @keyframes completePulse {
+                0% {
+                    opacity: 0;
+                    transform: scale(1);
+                }
+                50% {
+                    opacity: 0.5;
+                    transform: scale(1.05);
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(1.1);
+                }
+            }
+        `;
+        document.head.appendChild(completeStyle);
+        
+        // Добавляем эффект дрожания для сетки при изменении прогресса
+        let lastProgress = 0;
+        const originalAnimation = gridBackground.style.animation;
+        
+        setInterval(() => {
+            if (progress > lastProgress && progress < 100) {
+                // Временное ускорение анимации сетки
+                gridBackground.style.animation = 'gridMove 2s linear infinite';
+                
+                setTimeout(() => {
+                    gridBackground.style.animation = originalAnimation;
+                }, 300);
+            }
+            lastProgress = progress;
+        }, 500);
     </script>
 </body>
 </html>
