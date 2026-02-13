@@ -3,564 +3,275 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MELEEDIDY | Загрузка</title>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <title>Rofl-City | Z-City</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * {
+        :root {
+            --red-main: #ff0000;
+            --red-dark: #440000;
+            --red-glow: rgba(255, 0, 0, 0.4);
+            --bg-black: #050000;
+            --font-main: 'Disket Mono', 'Fira Code', monospace;
+        }
+
+        * { box-sizing: border-box; }
+
+        body, html {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background-color: #000;
-            font-family: 'Share Tech Mono', monospace;
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-            color: white;
-        }
-        
-        /* Основной контейнер */
-        .loading-screen {
-            position: relative;
             width: 100%;
             height: 100%;
-            background: 
-                linear-gradient(
-                    135deg, 
-                    rgba(202, 167, 124, 0.15) 0%, 
-                    rgba(0, 0, 0, 0.95) 40%, 
-                    rgba(0, 0, 0, 1) 100%
-                );
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: var(--bg-black);
+            font-family: var(--font-main);
+            color: var(--red-main);
+            text-transform: uppercase;
         }
-        
-        /* Анимированная сетка */
-        .grid-background {
+
+        .crt-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%),
+                        radial-gradient(circle, transparent 20%, rgba(0,0,0,0.7) 100%);
+            background-size: 100% 4px, 100% 100%;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        #bg-container {
             position: absolute;
-            width: 200%;
-            height: 200%;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
-            background-size: 50px 50px;
-            top: -50%;
-            left: -50%;
-            animation: gridMove 20s linear infinite;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            filter: grayscale(1) brightness(0.3) sepia(1) hue-rotate(-50deg) blur(2px);
+        }
+
+        .bg-slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
             opacity: 0;
-            animation: 
-                gridFadeIn 1s ease-out 0.3s forwards,
-                gridMove 20s linear infinite;
+            transition: opacity 2s ease-in-out, transform 10s linear;
         }
-        
-        @keyframes gridFadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+
+        .bg-slide.active { 
+            opacity: 0.5; 
+            transform: scale(1.1);
         }
-        
-        @keyframes gridMove {
-            0% {
-                transform: translateX(0) translateY(0);
-            }
-            100% {
-                transform: translateX(-25px) translateY(-25px);
-            }
-        }
-        
-        /* Контейнер для контента */
-        .content-wrapper {
+
+        .wrapper {
             position: relative;
-            z-index: 10;
-            text-align: center;
-            width: 100%;
-            padding: 20px;
-        }
-        
-        /* Заголовок VES-City */
-        .title-container {
-            margin-bottom: 50px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: titleAppear 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.8s forwards;
-        }
-        
-        @keyframes titleAppear {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .main-title {
-            font-size: 5.5rem;
-            font-weight: bold;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-        
-        /* VESCITY без пробела */
-        .vescity-text {
-            color: #ffffff;
-            display: inline-block;
-            opacity: 0;
-            transform: scale(0.8);
-            animation: textAppear 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1.2s forwards;
-        }
-        
-        /* VES часть - бежевая */
-        .melee-part {
-            color: #caa77c;
-            text-shadow: 
-                0 0 10px rgba(202, 167, 124, 0.5),
-                0 0 20px rgba(202, 167, 124, 0.3);
-        }
-        
-        /* -CITY часть - белая */
-        .didy-part {
-            color: #ffffff;
-        }
-        
-        @keyframes textAppear {
-            0% {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            70% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        
-        /* Линия под заголовком */
-        .title-line {
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, 
-                transparent, 
-                #caa77c, 
-                transparent);
-            margin: 0 auto;
-            animation: lineExpand 1s ease-out 1.8s forwards;
-        }
-        
-        @keyframes lineExpand {
-            0% { width: 0; }
-            100% { width: 400px; }
-        }
-        
-        /* Контейнер загрузки */
-        .loading-container {
-            opacity: 0;
-            animation: fadeIn 0.8s ease-out 2s forwards;
-            width: 500px;
-            max-width: 90%;
-            margin: 0 auto;
-        }
-        
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-        
-        .loading-text {
-            font-size: 1.2rem;
-            letter-spacing: 4px;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-        
-        /* Полоса загрузки */
-        .loading-bar {
-            width: 100%;
-            height: 3px;
-            background-color: rgba(0, 0, 0, 0.4);
-            border-radius: 2px;
-            overflow: hidden;
-            margin-bottom: 15px;
-            border: 1px solid rgba(202, 167, 124, 0.2);
-        }
-        
-        .loading-progress {
-            width: 0%;
+            z-index: 110;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             height: 100%;
-            background: linear-gradient(90deg, 
-                rgba(202, 167, 124, 0.6) 0%, 
-                rgba(202, 167, 124, 1) 50%, 
-                rgba(255, 255, 255, 0.9) 100%);
-            animation: loadingAnimation 4s ease-in-out infinite 2.5s;
-            transition: width 0.3s ease;
+            width: 100%;
+            padding: 0 10%;
         }
-        
-        @keyframes loadingAnimation {
-            0% {
-                width: 0%;
-                opacity: 0.8;
-            }
-            50% {
-                width: 70%;
-                opacity: 1;
-            }
-            100% {
-                width: 100%;
-                opacity: 0.8;
-            }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 50px;
         }
-        
-        /* Статус загрузки */
-        .status-text {
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            color: rgba(202, 167, 124, 0.8);
-            min-height: 24px;
+
+        h1 {
+            font-size: 4rem;
+            margin: 0;
+            letter-spacing: 10px;
+            text-shadow: 0 0 20px var(--red-glow);
+            animation: glitch 3s infinite;
+        }
+
+        .sub-header {
+            font-size: 1rem;
+            letter-spacing: 8px;
+            color: var(--red-main);
+            opacity: 0.6;
             margin-top: 10px;
         }
-        
-        /* Декор углов */
-        .corner {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 1.5s forwards;
-        }
-        
-        .corner-tl {
-            top: 20px;
-            left: 20px;
-            border-top: 1px solid rgba(202, 167, 124, 0.5);
-            border-left: 1px solid rgba(202, 167, 124, 0.5);
-        }
-        
-        .corner-tr {
-            top: 20px;
-            right: 20px;
-            border-top: 1px solid rgba(202, 167, 124, 0.5);
-            border-right: 1px solid rgba(202, 167, 124, 0.5);
-        }
-        
-        .corner-bl {
-            bottom: 20px;
-            left: 20px;
-            border-bottom: 1px solid rgba(202, 167, 124, 0.5);
-            border-left: 1px solid rgba(202, 167, 124, 0.5);
-        }
-        
-        .corner-br {
-            bottom: 20px;
-            right: 20px;
-            border-bottom: 1px solid rgba(202, 167, 124, 0.5);
-            border-right: 1px solid rgba(202, 167, 124, 0.5);
-        }
-        
-        /* Информация сервера */
-        .server-info {
-            position: absolute;
-            bottom: 15px;
+
+        .status-box {
             width: 100%;
+            max-width: 700px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--red-main);
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.1);
             text-align: center;
-            color: rgba(202, 167, 124, 0.4);
-            font-size: 0.8rem;
-            letter-spacing: 1.5px;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 2.2s forwards;
         }
-        
-        /* Эффект свечения VES */
-        .ves-glow {
+
+        .status-box::before, .status-box::after {
+            content: '';
             position: absolute;
-            width: 250px;
-            height: 120px;
-            background: radial-gradient(
-                ellipse at center,
-                rgba(202, 167, 124, 0.1) 0%,
-                transparent 70%
-            );
-            filter: blur(15px);
-            z-index: 1;
-            opacity: 0;
-            animation: glowAppear 1s ease-out 1.2s forwards;
+            width: 20px;
+            height: 20px;
+            border: 4px solid var(--red-main);
         }
-        
-        @keyframes glowAppear {
-            0% { opacity: 0; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1); }
+        .status-box::before { top: -6px; left: -6px; border-right: 0; border-bottom: 0; }
+        .status-box::after { bottom: -6px; right: -6px; border-left: 0; border-top: 0; }
+
+        #status-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
         }
-        
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            .main-title {
-                font-size: 3.5rem;
-                letter-spacing: 5px;
-            }
-            
-            .loading-container {
-                width: 300px;
-            }
-            
-            @keyframes lineExpand {
-                0% { width: 0; }
-                100% { width: 250px; }
-            }
-            
-            .corner {
-                width: 30px;
-                height: 30px;
-            }
-            
-            .ves-glow {
-                width: 180px;
-                height: 80px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .main-title {
-                font-size: 2.5rem;
-                letter-spacing: 3px;
-            }
-            
-            .loading-text {
-                font-size: 1rem;
-                letter-spacing: 2px;
-            }
-        }
-        
-        /* Эффект печатания */
-        .typing {
+
+        #file-text {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 30px;
+            height: 1.2rem;
             overflow: hidden;
-            border-right: 2px solid #caa77c;
-            white-space: nowrap;
-            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
         }
-        
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
+
+        .scanner-wrap {
+            width: 100%;
+            height: 4px;
+            background: var(--red-dark);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
         }
-        
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: #caa77c; }
+
+        .scanner-bar {
+            width: 40%;
+            height: 100%;
+            background: var(--red-main);
+            box-shadow: 0 0 15px var(--red-main);
+            position: absolute;
+            animation: scan 1.5s infinite ease-in-out;
         }
-        
-        /* Анимация свечения VES */
-        @keyframes vesGlowPulse {
-            0%, 100% {
-                text-shadow: 
-                    0 0 10px rgba(202, 167, 124, 0.5),
-                    0 0 20px rgba(202, 167, 124, 0.3);
-            }
-            50% {
-                text-shadow: 
-                    0 0 15px rgba(202, 167, 124, 0.7),
-                    0 0 30px rgba(202, 167, 124, 0.5),
-                    0 0 45px rgba(202, 167, 124, 0.3);
-            }
+
+        @keyframes scan {
+            0% { left: -45%; }
+            100% { left: 100%; }
+        }
+
+        #tip-text {
+            font-size: 0.9rem;
+            color: var(--red-main);
+            min-height: 3rem;
+            max-width: 500px;
+            margin: 0 auto;
+            border-top: 1px solid var(--red-dark);
+            padding-top: 20px;
+            opacity: 0.8;
+        }
+
+        @keyframes glitch {
+            0% { transform: skew(0deg); }
+            1% { transform: skew(10deg); opacity: 0.5; }
+            2% { transform: skew(-10deg); opacity: 1; }
+            3% { transform: skew(0deg); }
+            100% { transform: skew(0deg); }
         }
     </style>
 </head>
 <body>
-    <div class="loading-screen">
-        <div class="grid-background"></div>
-        <div class="ves-glow"></div>
-        
-        <div class="corner corner-tl"></div>
-        <div class="corner corner-tr"></div>
-        <div class="corner corner-bl"></div>
-        <div class="corner corner-br"></div>
-        
-        <div class="content-wrapper">
-            <div class="title-container">
-                <h1 class="main-title">
-                    <span class="vescity-text">
-                        <span class="ves-part">VES</span><span class="city-part">-CITY</span>
-                    </span>
-                </h1>
-                <div class="title-line"></div>
-            </div>
+
+    <div class="crt-overlay"></div>
+    <div id="bg-container"></div>
+
+    <div class="wrapper">
+        <div class="header-section">
+            <h1 id="title-text">&nbsp;</h1>
+            <div class="sub-header">Establishing Neural Link...</div>
+        </div>
+
+        <div class="status-box">
+            <div id="status-text">SYSTEM READY</div>
+            <div id="file-text">Waiting for data packets...</div>
             
-            <div class="loading-container">
-                <div class="loading-text">ПОДКЛЮЧЕНИЕ К СЕРВЕРУ</div>
-                <div class="loading-bar">
-                    <div class="loading-progress" id="loadingProgress"></div>
-                </div>
-                <div class="status-text" id="statusText">Инициализация системы...</div>
+            <div class="scanner-wrap">
+                <div class="scanner-bar"></div>
             </div>
+
+            <div id="tip-text">...</div>
         </div>
         
-        <div class="server-info">
-            VES-City Server | v2.1.4
+        <div style="margin-top: 30px; font-size: 0.7rem; opacity: 0.4; letter-spacing: 3px;">
+          Rofl-City
         </div>
     </div>
 
     <script>
-        // Сообщения статуса
-        const statusMessages = [
-            "Инициализация системы...",
-            "Загрузка карты...",
-            "Подготовка игрового мира...",
-            "Синхронизация данных...",
-            "Загрузка ресурсов...",
-            "Настройка окружения...",
-            "Проверка подключения...",
-            "Подготовка завершена..."
+        const backgroundImages = ["imag1.png", "imag2.png", "imag3.png", "imag5.png"];
+        const tips = [
+            "READ THE RULES OR FACE TERMINATION.",
+            "SHINS ARE FRAGILE. AVOID HIGH DROPS.",
+            "ADRENALINE IS FUEL. STRIKE TO RECOVER.",
+            "RED CIRCLE = LIFE SUPPORT FAILURE.",
+            "TRUST NO ONE. VERIFY ALL TARGETS.",
+            "LOOT PROPS: HOLD E + RIGHT MOUSE BUTTON.",
+            "Thanks Developer Z-City."
         ];
-        
-        let currentStatus = 0;
-        const statusText = document.getElementById('statusText');
-        const loadingProgress = document.getElementById('loadingProgress');
-        const vesPart = document.querySelector('.ves-part');
-        
-        // Смена статусов
-        function updateStatus() {
-            statusText.textContent = statusMessages[currentStatus];
-            currentStatus = (currentStatus + 1) % statusMessages.length;
-            
-            // Эффект печатания для каждого нового статуса
-            statusText.classList.remove('typing');
-            void statusText.offsetWidth; // Перезапуск анимации
-            statusText.classList.add('typing');
-        }
-        
-        // Анимация свечения VES
-        function startVesGlow() {
-            vesPart.style.animation = 'vesGlowPulse 2s ease-in-out infinite';
-        }
-        
-        // Симуляция прогресса загрузки
-        let progress = 0;
-        function simulateProgress() {
-            if (progress < 100) {
-                // Разная скорость прогресса
-                let increment;
-                if (progress < 30) {
-                    increment = 2 + Math.random() * 3;
-                } else if (progress < 70) {
-                    increment = 4 + Math.random() * 5;
-                } else {
-                    increment = 1 + Math.random() * 2;
-                }
-                
-                progress += increment;
-                if (progress > 100) progress = 100;
-                
-                loadingProgress.style.width = progress + '%';
-                
-                // Изменение при достижении 100%
-                if (progress >= 100) {
-                    loadingProgress.style.background = 'linear-gradient(90deg, #caa77c 0%, #ffffff 100%)';
-                    loadingProgress.style.animation = 'none';
-                    document.querySelector('.loading-text').textContent = "СЕРВЕР ГОТОВ";
-                    statusText.textContent = "Можно подключаться к игре";
-                    
-                    // Эффект завершения
-                    completeLoading();
-                    return;
-                }
-                
-                // Следующее обновление
-                const delay = 300 + Math.random() * 400;
-                setTimeout(simulateProgress, delay);
-            }
-        }
-        
-        // Эффект завершения загрузки
-        function completeLoading() {
-            // Усиливаем свечение
-            const glow = document.querySelector('.ves-glow');
-            glow.style.background = 'radial-gradient(ellipse at center, rgba(202, 167, 124, 0.2) 0%, transparent 70%)';
-            glow.style.filter = 'blur(20px)';
-            
-            // Усиливаем свечение текста
-            vesPart.style.textShadow = 
-                '0 0 20px rgba(202, 167, 124, 0.8), ' +
-                '0 0 40px rgba(202, 167, 124, 0.6), ' +
-                '0 0 60px rgba(202, 167, 124, 0.4)';
-            
-            // Добавляем вспышку
-            const flash = document.createElement('div');
-            flash.style.position = 'absolute';
-            flash.style.top = '0';
-            flash.style.left = '0';
-            flash.style.width = '100%';
-            flash.style.height = '100%';
-            flash.style.background = 'radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 70%)';
-            flash.style.zIndex = '2';
-            flash.style.animation = 'flashEffect 1s ease-out forwards';
-            
-            document.querySelector('.loading-screen').appendChild(flash);
-            
-            // Стиль для вспышки
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes flashEffect {
-                    0% { opacity: 0; transform: scale(1); }
-                    50% { opacity: 0.4; }
-                    100% { opacity: 0; transform: scale(1.05); }
-                }
-            `;
-            document.head.appendChild(style);
-            
-            setTimeout(() => {
-                flash.remove();
-            }, 1000);
-        }
-        
-        // Позиционирование свечения VES
-        function positionGlow() {
-            const glow = document.querySelector('.ves-glow');
-            const title = document.querySelector('.title-container');
-            
-            if (title && glow) {
-                const rect = title.getBoundingClientRect();
-                glow.style.left = (rect.left + rect.width / 2 - 125) + 'px';
-                glow.style.top = (rect.top + rect.height / 2 - 60) + 'px';
-            }
-        }
-        
-        // Запускаем все после загрузки
-        window.addEventListener('load', () => {
-            // Позиционируем свечение
-            positionGlow();
-            
-            // Запускаем пульсацию VES
-            setTimeout(startVesGlow, 2000);
-            
-            // Обновляем позицию при изменении размера окна
-            window.addEventListener('resize', positionGlow);
-            
-            // Запускаем смену статусов
-            setInterval(updateStatus, 2500);
-            
-            // Начальное обновление статуса
-            updateStatus();
-            
-            // Запускаем симуляцию прогресса
-            setTimeout(simulateProgress, 2000);
-            
-            // Пульсация свечения фона
-            setInterval(() => {
-                const glow = document.querySelector('.ves-glow');
-                const scale = 0.95 + Math.random() * 0.1;
-                const opacity = 0.8 + Math.random() * 0.2;
-                glow.style.transform = `scale(${scale})`;
-                glow.style.opacity = opacity;
-            }, 2000);
+
+        const bgContainer = document.getElementById('bg-container');
+        backgroundImages.forEach((src, i) => {
+            const div = document.createElement('div');
+            div.className = 'bg-slide' + (i === 0 ? ' active' : '');
+            div.style.backgroundImage = `url('${src}')`;
+            bgContainer.appendChild(div);
         });
+
+        let currentSlide = 0;
+        setInterval(() => {
+            const slides = document.querySelectorAll('.bg-slide');
+            if(slides.length > 0) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+        }, 6000);
+
+        const titleText = document.getElementById('title-text');
+        const titles = ["Rofl-City", "Z-City"];
+        let tIdx = 0, cIdx = 0, isDel = false;
+
+        function type() {
+            const full = titles[tIdx];
+            if (!isDel) {
+                titleText.innerText = full.substring(0, cIdx + 1);
+                cIdx++;
+                if (cIdx === full.length) setTimeout(() => isDel = true, 3000);
+            } else {
+                titleText.innerText = full.substring(0, cIdx - 1);
+                cIdx--;
+                if (cIdx === 0) {
+                    isDel = false;
+                    tIdx = (tIdx + 1) % titles.length;
+                }
+            }
+            setTimeout(type, isDel ? 50 : 150);
+        }
+        type();
+
+        function nextTip() {
+            const el = document.getElementById('tip-text');
+            if(el) {
+                el.style.opacity = 0;
+                setTimeout(() => {
+                    el.innerText = "TIP: " + tips[Math.floor(Math.random() * tips.length)];
+                    el.style.opacity = 1;
+                }, 500);
+            }
+        }
+        setInterval(nextTip, 5000);
+        nextTip();
+
+        function SetStatus(status) {
+            const statusEl = document.getElementById('status-text');
+            if(statusEl) statusEl.innerText = status.toUpperCase();
+        }
+
+        function DownloadingFile(fileName) {
+            const fileEl = document.getElementById('file-text');
+            if(fileEl) fileEl.innerText = "DOWNLOADING: " + fileName;
+        }
     </script>
 </body>
 </html>
